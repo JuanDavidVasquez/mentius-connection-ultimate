@@ -1,0 +1,192 @@
+html,
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background-color: #282c34;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+
+  /* Colores principales */
+  --main-color: #49ADBC;
+  --secondary-color: #1B4565;
+
+  /* Colores adicionales */
+  --warning-color: #FFA726;
+
+  /* Naranja para advertencias */
+  --cancel-color: #E57373;
+
+  /* Rojo claro para cancelar */
+  --alert-color: #FF5252;
+  /* Rojo más fuerte para alertas */
+
+  --submit-color: #66BB6A;
+  /* Verde para acciones de envío */
+
+  /* Otros colores de uso general */
+  --info-color: #29B6F6;
+
+  /* Azul claro para información */
+  --success-color: #4CAF50;
+  /* Verde para éxito */
+
+  --neutral-color: #9E9E9E;
+  /* Gris para estados neutros */
+}
+
+/*-------------------------------
+                                -
+              Utlis             -
+                                -
+---------------------------------*/
+
+.inputs-container {
+  display: grid;
+  gap: 10px;
+}
+
+.submit {
+  padding: 5px 20px;
+  border-radius: 15px;
+  border: none;
+  background-color: var(--secondary-color);
+  color: white;
+  cursor: pointer;
+  font-size: calc(10px + 1vmin);
+  transition: all ease .5s;
+}
+
+.submit:hover {
+  background-color: var(--main-color);
+}
+
+.cancelar {
+  padding: 5px 20px;
+  border-radius: 15px;
+  border: none;
+  background-color: #dc3545;
+  color: white;
+}
+
+.text-input {
+  min-width: 300px;
+  padding: 10px;
+  border-radius: 15px;
+  border: none;
+  margin-bottom: 10px;
+  outline: none;
+}
+
+.checbox-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0px;
+}
+
+.custom-span-error-class {
+  display: block;
+  color: red;
+  font-size: 0.8rem;
+}
+
+/*-------------------------------
+                                -
+         Nav main-layout        -
+                                -
+---------------------------------*/
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 200px 1fr;
+}
+
+nav {
+  background-color: #363a45;
+  height: 100vh;
+  grid-column: 1;
+  grid-row: 1/2;
+}
+
+nav ul {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 0;
+}
+
+nav li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+nav li a {
+  color: white;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.nav-active {
+  color: grey;
+  transition: all .3s ease-out;
+}
+
+/*-------------------------------
+                                -
+         Login Page             -
+                                -
+---------------------------------*/
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--secondary-color);
+}
+
+.login .submit {
+  float: right;
+}
+
+.titleLogin{
+  font-size: 3rem;
+  font-family: Arial, Helvetica, sans-serif;
+  color: transparent;
+  -webkit-text-stroke: .2px white;
+}
+.container-login{
+  position: relative;
+  z-index: 2;
+}
+.particleCanvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.mentius-title {
+  position: fixed;
+  top: 10%;
+  width: 100%;
+  text-align: center;
+  font-size: 7rem;
+  color: transparent;
+  -webkit-text-stroke: .5px white;
+  font-family: cursive;
+}
