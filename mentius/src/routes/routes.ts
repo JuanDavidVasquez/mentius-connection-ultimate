@@ -27,5 +27,18 @@ export const routesHome: Route[] = [
         to: "/home",      
         Component: Home,
         name: "Home",
+    },
+    {
+        path: "/users",
+        to: "/users",
+        Component: lazy(() => import("../users/page/Users")),
+        name: "users",
+    },
+    {
+        path: "/colaboradores",
+        to: "/colaboradores",
+        Component: lazy(() => import("../colaboradores/pages/Colaboradores")),
+        name: "Colaboradores",
     }
+
 ];

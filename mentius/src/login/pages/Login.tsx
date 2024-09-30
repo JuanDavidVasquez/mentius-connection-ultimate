@@ -4,7 +4,6 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { MyCheckbox, MyTextInput } from "../../utils/forms";
 import NeuronParticles from "../../utils/animations/neuronParticle";
-import { MentiusAnimation } from "../../utils/animations/MentiusAnimation";
 
 const tl = gsap.timeline({ repeat: -1, yoyo: true });
 
@@ -41,19 +40,18 @@ export const Login = () => {
     }
   }, []);
 
+  // Función para animar el cierre del formulario
   const animateLoginIn = () => {
     const tl = gsap.timeline();
     tl.to(".particleCanvas", {
       duration: 2,
-      scale: 0,
-
-    })
-    .to(".login", {
+      scale: 5,
+    }).to(".login", {
       duration: 1,
       opacity: 0,
       display: "none",
     });
-  }
+  };
 
   return (
     <div className="login">
@@ -61,7 +59,7 @@ export const Login = () => {
       <h1 ref={titleRef} className="titleLogin">
         {titleLogin.split("").map((letter, index) => (
           <span key={index}>{letter}</span>
-        ))}
+        ))} 
       </h1>
       <div className="mentius-title">Mentius Connection</div>
       <div className="container-login">
@@ -72,7 +70,9 @@ export const Login = () => {
             terms: false,
           }}
           onSubmit={(values) => {
+           
             console.log(values);
+            animateLoginIn();
           }}
           validationSchema={Yup.object().shape({
             userName: Yup.string()
@@ -101,9 +101,7 @@ export const Login = () => {
                 placeholder="Password"
               />
               <MyCheckbox name="terms" label="Accept Terms and Conditions" />
-              <button type="submit" className="submit" 
-                onClick={animateLoginIn}
-              >
+              <button type="submit" className="submit">
                 Login In
               </button>
             </Form>

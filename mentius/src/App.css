@@ -93,6 +93,94 @@ body {
   color: red;
   font-size: 0.8rem;
 }
+.btn {
+  padding: 5px 20px;
+  border-radius: 15px;
+  border: none;
+  background-color: var(--warning-color);
+  color: white;
+  cursor: pointer;
+  font-size: calc(10px + 1vmin);
+  transition: all ease .5s;
+}
+.btn:hover {
+  background-color: var(--main-color);
+}
+.info{
+  background-color: var(--info-color);
+}
+.success{
+  background-color: var(--success-color);
+}
+
+/* Contenedor general del select */
+.select {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Estilo para el label */
+.select label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+/* Estilo para el select */
+.select select {
+  width: 320px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Estilo cuando el select está enfocado */
+.select select:focus {
+  border-color: #4A90E2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+}
+
+/* Cambio de color del select cuando hay un error */
+.select select.invalid {
+  border-color: #E74C3C;
+}
+
+/* Estilo para el mensaje de error */
+.custom-span-error-class {
+  color: #E74C3C;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Estilo para la animación de error */
+@keyframes fadeInError {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-span-error-class {
+  animation: fadeInError 0.3s ease-in-out;
+}
+
+/* Estilo para el select en modo hover */
+.select select:hover {
+  border-color: #bbb;
+}
 
 /*-------------------------------
                                 -
@@ -106,13 +194,16 @@ code {
 }
 
 .main-layout {
+  width: 100%;
+  height: 100vh;
   display: grid;
   grid-template-columns: 250px 1fr;
   grid-template-rows: 200px 1fr;
+  overflow: hidden;
 }
 
 nav {
-  background-color: #363a45;
+  background-color: var(--secondary-color);
   height: 100vh;
   grid-column: 1;
   grid-row: 1/2;
@@ -142,6 +233,33 @@ nav li a {
   transition: all .3s ease-out;
 }
 
+
+/*-------------------------------
+                                -
+             Layout             -
+                                -
+---------------------------------*/
+
+.logo-layout{
+  width: 100%;
+}
+
+/*-------------------------------
+                                -
+             Main               -
+                                -
+---------------------------------*/
+.main{
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 90vh;
+  overflow-y: auto;
+  scroll-behavior: auto;
+}
+
 /*-------------------------------
                                 -
          Login Page             -
@@ -155,6 +273,7 @@ nav li a {
   align-items: center;
   height: 100vh;
   background-color: var(--secondary-color);
+  overflow: hidden;
 }
 
 .login .submit {

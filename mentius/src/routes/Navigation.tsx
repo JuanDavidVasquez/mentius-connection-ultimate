@@ -7,9 +7,10 @@ import {
   Routes,
 } from "react-router-dom";
 import { routesHome, routesLogin } from "./routes";
+import logo from '../assets/logoBlanco.png'
 
 export const Navigation = () => {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(true);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -30,7 +31,7 @@ export const Navigation = () => {
         {auth && (
           <div className="main-layout">
             <nav>
-              <img src="logo.png" alt="logo" />
+              <img src={logo} alt="logo" className="logo-layout"/>
               <ul>
                 {routesHome.map((route) => (
                   <li key={route.path}>
@@ -46,6 +47,18 @@ export const Navigation = () => {
                 ))}
               </ul>
             </nav>
+            <div className="main">
+              <Routes>
+                {routesHome.map(({ path, Component }) => (
+                  <Route key={path} path={path} element={<Component />} />
+                ))}
+
+                <Route
+                  path="*"
+                  element={<Navigate to={routesHome[0].to} replace />}
+                />
+              </Routes>
+            </div>
           </div>
         )}
       </BrowserRouter>
