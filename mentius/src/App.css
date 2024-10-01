@@ -18,7 +18,7 @@ body {
   --warning-color: #FFA726;
 
   /* Naranja para advertencias */
-  --cancel-color: #E57373;
+  --cancel-color: #840606;
 
   /* Rojo claro para cancelar */
   --alert-color: #FF5252;
@@ -93,6 +93,10 @@ body {
   color: red;
   font-size: 0.8rem;
 }
+.buttons{
+  display: flex;
+  justify-content: space-around;
+}
 .btn {
   padding: 5px 20px;
   border-radius: 15px;
@@ -111,7 +115,22 @@ body {
 }
 .success{
   background-color: var(--success-color);
+  margin-top: 1em;
 }
+.cancelar{
+  background-color: var(--cancel-color);
+  margin-top: 1em;
+}
+.cancelar:hover{
+  background-color: var(--alert-color);
+}
+.buttonsContainer{
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2em;
+}
+
 
 /* Contenedor general del select */
 .select {
@@ -308,4 +327,52 @@ nav li a {
   color: transparent;
   -webkit-text-stroke: .5px white;
   font-family: cursive;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  right: 100%;
+  top: 0;
+  width: 80%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  transition: right 0.5s ease; 
+}
+
+.modal-active {
+  display: grid; 
+  justify-items: center;
+  align-content: center;
+  right: 0; 
+  animation: slide-in 0.5s forwards; 
+}
+
+.modal-exit {
+  animation: slide-out 0.5s forwards;
+}
+
+/* Animación de entrada */
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animación de salida */
+@keyframes slide-out {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 }

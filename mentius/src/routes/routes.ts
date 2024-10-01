@@ -35,10 +35,16 @@ export const routesHome: Route[] = [
         name: "users",
     },
     {
-        path: "/colaboradores",
-        to: "/colaboradores",
+        path: "/personal-data",
+        to: "/personal-data",
         Component: lazy(() => import("../colaboradores/pages/Colaboradores")),
-        name: "Colaboradores",
+        name: "Personal Data",
+    },
+    {
+        path: "/roles",
+        to: "/roles",
+        Component: lazy(() => import("../roles/pages/Roles")),
+        name: "Roles",
     }
 
 ];
