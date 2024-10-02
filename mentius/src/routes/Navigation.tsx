@@ -10,7 +10,7 @@ import { routesHome, routesLogin } from "./routes";
 import logo from '../assets/logoBlanco.png'
 
 export const Navigation = () => {
-  const [auth, setAuth] = useState(true);
+  const [auth, setAuth] = useState(false);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

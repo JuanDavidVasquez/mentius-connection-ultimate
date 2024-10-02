@@ -45,6 +45,12 @@ export const routesHome: Route[] = [
         to: "/roles",
         Component: lazy(() => import("../roles/pages/Roles")),
         name: "Roles",
+    },
+    {
+        path: "/asistencia",
+        to: "/asistencia",
+        Component: lazy(() => import("../asistencia/pages/Asistencia")),
+        name: "Asistencia",
     }
 
 ];
