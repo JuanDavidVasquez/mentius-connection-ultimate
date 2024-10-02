@@ -201,6 +201,11 @@ body {
   border-color: #bbb;
 }
 
+.selected{
+  background-color: var(--main-color);
+  color: white;
+}
+
 /*-------------------------------
                                 -
          Nav main-layout        -
