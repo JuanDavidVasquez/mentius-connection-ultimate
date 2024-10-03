@@ -1,22 +1,19 @@
 import React from 'react';
 import asistenciaData from '../utils/asistenciaConsolidado.json';
-import { generarAlertas } from '../utils/alerta';
+
 
 interface Asistencia {
   cedula: string;
-  nombre: string;
+  nombreCompleto: string;
   cargo: string;
   modalidad: string;
   supervisor: string;
-  sede: string;
-  ingresoGestor: string;
-  ingresoTorniquete: string;
-  desconexionGestor: string;
-  ingresoBiometrico: string;
+  gestor: string;
+  genesys: string;
+  ucontact: string;
+  biometrico: string;
   asistenciaFinal: string;
-  horasBiometrico: number; // Asegúrate de que este campo esté presente en tu JSON
-  novedad?: string; // Propiedad opcional
-  horaIngresots?: string; // Propiedad opcional
+  alertas?: string;
 }
 
 export const AsistenciaResultado: React.FC = () => {
@@ -31,32 +28,27 @@ export const AsistenciaResultado: React.FC = () => {
             <th>Cargo</th>
             <th>Modalidad</th>
             <th>Supervisor</th>
-            <th>Sede</th>
-            <th>Ingreso Gestor</th>
-            <th>Ingreso Torniquete</th>
-            <th>Desconexión Gestor</th>
-            <th>Ingreso Biometrico</th>
+            <th>Genesys</th>
+            <th>Ucontact</th>
+            <th>Biometrico</th>
             <th>Asistencia Final</th>
             <th>Alertas</th>
           </tr>
         </thead>
         <tbody>
-          {asistenciaData.map((asistencia: Asistencia, index: number) => {
-            const alertas = generarAlertas(asistencia, '08:00'); // Hora programada de ejemplo
+          {asistenciaData.map((asistencia: Asistencia, index) => {
             return (
               <tr key={index}>
                 <td>{asistencia.cedula}</td>
-                <td>{asistencia.nombre}</td>
+                <td>{asistencia.nombreCompleto}</td>
                 <td>{asistencia.cargo}</td>
                 <td>{asistencia.modalidad}</td>
                 <td>{asistencia.supervisor}</td>
-                <td>{asistencia.sede}</td>
-                <td>{asistencia.ingresoGestor}</td>
-                <td>{asistencia.ingresoTorniquete}</td>
-                <td>{asistencia.desconexionGestor}</td>
-                <td>{asistencia.ingresoBiometrico}</td>
+                <td>{asistencia.genesys}</td>
+                <td>{asistencia.ucontact}</td>
+                <td>{asistencia.biometrico}</td>
                 <td>{asistencia.asistenciaFinal}</td>
-                <td>{alertas.join(', ')}</td>
+                <td>{asistencia.alertas}</td>
               </tr>
             );
           })}
