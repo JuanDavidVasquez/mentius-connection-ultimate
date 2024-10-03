@@ -2,27 +2,65 @@ import { AsistenciaImports } from "../components/AsistenciaImports";
 import "../assets/stylesAsistencia.css";
 import { useState, useRef } from "react";
 import { animateOpenClose } from "../../utils/animations/animationOpenClose";
+import { AsistenciaGenerar } from "../components/AsistenciaGenerar";
+import { AsistenciaResultado } from "../components/AsistenciaResultado";
 
 const Asistencia = () => {
   const [importContainers, setImportContainers] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null); // Crear un ref para el contenedor
+  const [generateContainers, setGenerateContainers] = useState(false);
+  const containerImportsRef = useRef<HTMLDivElement>(null); // Ref para importaciones
+  const containerGenerarRef = useRef<HTMLDivElement>(null); // Ref para generación
 
-  const toggleImportContainers = () => {
-    animateOpenClose(containerRef.current, setImportContainers, importContainers);
+  const toggleImports = () => {
+    if (generateContainers) {
+      animateOpenClose(containerGenerarRef.current, setGenerateContainers, generateContainers);
+    }
+    animateOpenClose(containerImportsRef.current, setImportContainers, importContainers);
+  };
+
+  const toggleGenerar = () => {
+    if (importContainers) {
+      animateOpenClose(containerImportsRef.current, setImportContainers, importContainers);
+    }
+    animateOpenClose(containerGenerarRef.current, setGenerateContainers, generateContainers);
   };
 
   return (
     <>
       <h1>Asistencia</h1>
-      <button onClick={toggleImportContainers} className="btn info btn-imports">
-        Importar contenedores
-      </button>
+      <div className="container-buttons">
+        <button
+          onClick={toggleImports}
+          className="btn info btn-imports"
+        >
+          Importar contenedores
+        </button>
+        <button
+          onClick={toggleGenerar}
+          className="btn info btn-imports"
+        >
+          Generar Asistencia
+        </button>
+      </div>
+
       <div
         className="container-imports-asistencia"
-        ref={containerRef}
-        style={{ display: importContainers ? "block" : "none", opacity: 0 }} // Mantiene el contenedor en el DOM pero oculto
+        ref={containerImportsRef}
+        style={{ display: importContainers ? "block" : "none", opacity: 0 }} // Ocultar/mostrar
       >
         <AsistenciaImports />
+      </div>
+
+      <div
+        className="container-asistencia"
+        ref={containerGenerarRef}
+        style={{ display: generateContainers ? "block" : "none", opacity: 0 }} // Ocultar/mostrar
+      >
+        <AsistenciaGenerar />
+      </div>
+
+      <div className="resultado-asistencia">
+        <AsistenciaResultado />
       </div>
     </>
   );

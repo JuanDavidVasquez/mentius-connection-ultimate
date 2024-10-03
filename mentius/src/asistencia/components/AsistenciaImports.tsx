@@ -2,6 +2,7 @@ import { MyImport } from "../../utils/forms/MyImport";
 import { Formik, Form } from "formik";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
+import { MyTextInput } from "../../utils/forms";
 
 // Esquema de validación para el archivo
 const validationSchema = Yup.object({
@@ -35,7 +36,7 @@ export const AsistenciaImports = () => {
           </button>
         ))}
       </div>
-      <div style={{ margin: "10px 0px" }}>
+      <div style={{ margin: "10px 0px", width:"250px" }}>
 
         {importSelected && <h3>Import {importSelected}</h3>}
 
@@ -55,8 +56,14 @@ export const AsistenciaImports = () => {
                 accept=".csv"
                 placeholder="Selecciona un archivo"
               />
+              <MyTextInput
+                label="Fecha"
+                name="date"
+                type="date"
+                placeholder="Selecciona una fecha"
+              />
               <button type="submit" className="submit">
-                Enviar
+                Importar
               </button>
             </Form>
           )}

@@ -52,3 +52,91 @@
 .btn-imports{
     align-self: start;
 }
+
+.container-asistencia{
+  width: 90%;
+  padding: 1rem;
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: self-start;
+}
+
+
+.resultado-asistencia{
+  width: 90%;
+}
+
+
+
+
+.table-container {
+  width: 90%;
+  margin: 20px auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: 'Arial', sans-serif;
+  text-align: left;
+}
+
+/* Estilos para el encabezado */
+thead {
+  background-color: #4CAF50;
+  color: white;
+}
+
+thead th {
+  padding: 12px 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+/* Estilos para el cuerpo */
+tbody tr {
+  border-bottom: 1px solid #dddddd;
+  transition: background-color 0.3s ease;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #262525;
+}
+
+tbody tr:hover {
+  background-color: #444;
+}
+
+tbody td {
+  padding: 12px 15px;
+}
+
+/* Estilo para celdas */
+td, th {
+  border-right: 1px solid #e0e0e0;
+}
+
+/* Quitar borde derecho del último elemento */
+tbody tr td:last-child,
+thead th:last-child {
+  border-right: none;
+}
+
+/* Responsive: Hacer la tabla scrollable en dispositivos móviles */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

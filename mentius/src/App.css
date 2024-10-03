@@ -206,6 +206,14 @@ body {
   color: white;
 }
 
+.container-buttons{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 1em;
+  gap: 1em;
+}
+
 /*-------------------------------
                                 -
          Nav main-layout        -

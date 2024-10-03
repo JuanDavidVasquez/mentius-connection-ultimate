@@ -3,7 +3,7 @@ import { ErrorMessage, useField } from "formik";
 interface Props {
   label: string;
   name: string;
-  type?: "text" | "email" | "password";
+  type?: "text" | "email" | "password" | "date" | "file";
   placeholder?: string;
   [x: string]: any;
 }
@@ -24,3 +24,4 @@ export const MyTextInput = ({ label, ...props }: Props) => {
     </div>
   );
 };
+
