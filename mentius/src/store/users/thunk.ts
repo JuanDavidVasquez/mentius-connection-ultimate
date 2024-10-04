@@ -26,13 +26,14 @@ export const getUsers = () => {
 };
 
 export const getUser = (user) => {
-  return async (dispatch) => {
+  return async (dispatch:Dispatch) => {
     dispatch(setUser({ user }));
   };
 };
 
 export const createNewUser = (user) =>{
-    return async (dispatch, getState) => {
+  console.log(user);
+    return async (dispatch:Dispatch) => {
       dispatch(isLoading()); 
       try {
         const token = localStorage.getItem("token");
@@ -53,7 +54,7 @@ export const createNewUser = (user) =>{
   }
 
   export const removeUsuario = (id) => {
-    return async (dispatch) => {
+    return async (dispatch:Dispatch) => {
       dispatch(isLoading());
       try {
         const token = localStorage.getItem("token");
@@ -71,7 +72,7 @@ export const createNewUser = (user) =>{
   };
 
   export const updateUser = (user) => {
-    return async (dispatch) => {
+    return async (dispatch:Dispatch) => {
       dispatch(isLoading());
       try {
         const token = localStorage.getItem("token");
@@ -90,7 +91,7 @@ export const createNewUser = (user) =>{
   };
 
   export const updateUserPassword = (user) => {
-    return async (dispatch) => {
+    return async (dispatch:Dispatch) => {
       dispatch(isLoading());
       try {
         const token = localStorage.getItem("token");

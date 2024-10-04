@@ -1,8 +1,15 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { MySelect, MyTextInput } from "../../utils/forms";
+import { useDispatch } from "react-redux";
+import { createNewUser } from "../../store/users";
+import { ToastContainer, toast } from "react-toastify"; 
+import 'react-toastify/dist/ReactToastify.css';
 
 export const User = () => {
+
+    const dispatch = useDispatch();
+
   return (
     <div>
         <h1>Create User</h1>
@@ -13,7 +20,10 @@ export const User = () => {
                 password: "",
                 role: "",
             }}
-            onSubmit={(values) => {
+            onSubmit={(values, { resetForm }) => {
+                dispatch(createNewUser(values));
+                toast.success("User created successfully!"); 
+                resetForm(); 
                 console.log(values);
             }}
             validationSchema={Yup.object({
@@ -47,10 +57,12 @@ export const User = () => {
                         <option value="admin">Admin</option>
                         <option value="user">User</option>
                     </MySelect>
+                    <button className="btn success" type="submit">Submit</button>
                 </Form>
               )}
 
         </Formik>
+        <ToastContainer />
     </div>
   )
 }

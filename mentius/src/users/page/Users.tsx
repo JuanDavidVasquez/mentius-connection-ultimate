@@ -9,6 +9,7 @@ import { getUsers } from '../../store/users/index';
 import { useDispatch, useSelector } from 'react-redux';
 
 
+
 export const Users = () => {
     const [createUserToggle, setCreateUserToggle] = useState<boolean>(false);
     const [editUserToggle, setEditUserToggle] = useState<boolean>(false);
@@ -16,15 +17,19 @@ export const Users = () => {
     const handleToggleCreate = () => {
         setCreateUserToggle(!createUserToggle);
     };
-    const handleToggleEdit = () => {
-        setEditUserToggle(!editUserToggle);
-    }
+
 
     const dispatch = useDispatch();
+
+    const { user } = useSelector(state => state.users);
 
     useEffect(() => {
         dispatch(getUsers());
     }, []);
+
+    useEffect(() => {
+        setEditUserToggle(true);
+    }, [user]);
 
 
 
@@ -33,10 +38,7 @@ export const Users = () => {
         <h1>Users</h1>
 
         <main className='mainUser'>
-            <section className='search-user-section'>
-                <UserSearch/>               
-            </section>
-            <section className='user-details-section section-users'>
+        <section className='user-details-section section-users'>
             <button 
                 className='btn success'
                 onClick={handleToggleCreate}
@@ -45,9 +47,12 @@ export const Users = () => {
                     
                 {createUserToggle && <User/>}
             </section>
+            <section className='search-user-section'>
+                <UserSearch/>               
+            </section>
+          
             <section className='user-edit-section section-users'>
-                <button className='btn success' onClick={handleToggleEdit}>Edit User</button>
-                {editUserToggle && <UserEdit/>}               
+                    {editUserToggle && <UserEdit/>}         
             </section>
         </main>
 
