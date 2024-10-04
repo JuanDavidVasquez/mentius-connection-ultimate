@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\PermissionRoleController;
+use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\RoleUserController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +22,8 @@ Route::get('test', function () {
 })->middleware('auth:api'); */
 
 Route::post('login', [AuthController::class, 'login']);
+
+
 
 Route::middleware('auth:api')->group(function () {
 
@@ -37,5 +43,14 @@ Route::middleware('auth:api')->group(function () {
 */
     Route::resource('users',UserController::class);
 
+ /*
+|--------------------------------------------------------------------------
+| Roles
+|--------------------------------------------------------------------------
+*/
+    Route::resource('roles',RoleController::class);
+    Route::resource('roles-permissions',PermissionRoleController::class);
+    Route::resource('roles-users',RoleUserController::class);
+    Route::resource('permissions',PermissionController::class);
 
 });
