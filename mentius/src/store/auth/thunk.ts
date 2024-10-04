@@ -12,20 +12,17 @@ interface LoginFormData {
 export const login = (formData: LoginFormData) => {
   return async (dispatch: Dispatch) => {
     dispatch(isLoading());
-    console.log(formData)
+    console.log(formData);
+
     try {
       const { data } = await authApi.post("login", formData);
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", data.user_name);
 
       dispatch(userAuth({ user: data, status: "check" }));
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
 
-    try {
+      // Si el inicio de sesión fue exitoso, intenta recuperar el perfil
       const token = localStorage.getItem("token");
-
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -33,14 +30,19 @@ export const login = (formData: LoginFormData) => {
         },
       };
 
-      const { data } = await authApi.get("/perfil", config);
+      const profileResponse = await authApi.get("/perfil", config);
+      dispatch(userAuth({ dataUser: profileResponse.data }));
 
-      dispatch(userAuth({ dataUser: data }));
+      // Retorna un objeto que indique que el login fue exitoso
+      return { success: true };
     } catch (error) {
-      console.error("Error fetching profile:", error);
+      console.error("Error during login:", error);
+      // Retorna un objeto que indique que hubo un error
+      return { success: false, error: error.response?.data || "Login failed" };
     }
   };
 };
+
 
 export const performLogout = () => {
   return (dispatch: Dispatch) => {

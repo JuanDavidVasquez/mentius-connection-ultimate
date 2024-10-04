@@ -32,7 +32,7 @@ export const UserEdit = () => {
 
   return (
     <div>
-      <h1>Edit User</h1>
+      <h1>Edit user: {user.user_name}</h1>
 
       {user ? (
         <Formik

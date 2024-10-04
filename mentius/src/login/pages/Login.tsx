@@ -66,49 +66,57 @@ export const Login = () => {
       </h1>
       <div className="mentius-title">Mentius Connection</div>
       <div className="container-login">
-        <Formik
-          initialValues={{
-            user_name: "",
-            password: "",
-            terms: false,
-          }}
-          onSubmit={(values) => {
-            dispatch(login(values));
-            animateLoginIn();
-          }}
-          validationSchema={Yup.object().shape({
-            user_name: Yup.string()
-              .required("Required")
-              .min(3, "Minimum 3 characters")
-              .max(15, "Maximum 15 characters"),
-            password: Yup.string().required("Password is Required"),
-            terms: Yup.boolean().oneOf(
-              [true],
-              "Must Accept Terms and Conditions"
-            ),
-          })}
-        >
-          {(formik) => (
-            <Form>
-              <MyTextInput
-                label="user_name"
-                name="user_name"
-                type="text"
-                placeholder="user_name"
-              />
-              <MyTextInput
-                label="Password"
-                name="password"
-                type="password"
-                placeholder="Password"
-              />
-              <MyCheckbox name="terms" label="Accept Terms and Conditions" />
-              <button type="submit" className="submit">
-                Login In
-              </button>
-            </Form>
-          )}
-        </Formik>
+      <Formik
+  initialValues={{
+    user_name: "",
+    password: "",
+    terms: false,
+  }}
+  onSubmit={async (values) => {
+    const response = await dispatch(login(values)); // Espera la respuesta
+
+    if (response.success) { // Verifica si el inicio de sesión fue exitoso
+      animateLoginIn(); // Ejecuta la animación
+    } else {
+      // Maneja el error, por ejemplo, mostrando un mensaje de error
+      console.error('Login failed:', response.error);
+      // Puedes mostrar el error al usuario, por ejemplo, con un state de error
+    }
+  }}
+  validationSchema={Yup.object().shape({
+    user_name: Yup.string()
+      .required("Required")
+      .min(3, "Minimum 3 characters")
+      .max(15, "Maximum 15 characters"),
+    password: Yup.string().required("Password is Required"),
+    terms: Yup.boolean().oneOf(
+      [true],
+      "Must Accept Terms and Conditions"
+    ),
+  })}
+>
+  {(formik) => (
+    <Form>
+      <MyTextInput
+        label="user_name"
+        name="user_name"
+        type="text"
+        placeholder="user_name"
+      />
+      <MyTextInput
+        label="Password"
+        name="password"
+        type="password"
+        placeholder="Password"
+      />
+      <MyCheckbox name="terms" label="Accept Terms and Conditions" />
+      <button type="submit" className="submit">
+        Login In
+      </button>
+    </Form>
+  )}
+      </Formik>
+
       </div>
     </div>
   );
