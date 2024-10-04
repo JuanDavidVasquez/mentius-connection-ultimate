@@ -1,14 +1,12 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 
-
 interface User {
-    id: number;
-    user_name: string;
-    name: string;
-    role: string;
+  id: number;
+  user_name: string;
+  name: string;
+  role: string;
 }
-
 
 const selectedUserAction = (user: User) => ({
   type: 'users/selectedUser', 
@@ -16,10 +14,13 @@ const selectedUserAction = (user: User) => ({
 });
 
 export const UserSearch = () => {
-  const dispatch = useDispatch(); // Añadir dispatch
-
+  const dispatch = useDispatch();
   const { users } = useSelector(state => state.users);
-  const usersData = users;
+  const [usersData, setUsersData] = useState<User[]>(users || []);
+
+  useEffect(() => {
+    setUsersData(users || []); // Asegúrate de que no sea undefined
+  }, [users]);
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredUsers, setFilteredUsers] = useState<User[]>(usersData);
@@ -31,9 +32,9 @@ export const UserSearch = () => {
     setSearchTerm(searchValue);
 
     // Filtrar usuarios por name, role o cédula
-    const filtered = usersData.filter((user) =>
-      user.role.toLowerCase().includes(searchValue) ||
-      user.user_name.includes(searchValue)
+    const filtered = usersData.filter((user: User) =>
+      (user.role && user.role.toLowerCase().includes(searchValue)) ||
+      (user.user_name && user.user_name.toLowerCase().includes(searchValue))
     );
     setFilteredUsers(filtered);
   };
@@ -60,7 +61,7 @@ export const UserSearch = () => {
         {/* Campo de búsqueda */}
         <input
           type="text"
-          placeholder="Buscar por name, role o cédula"
+          placeholder="Buscar por user name, role"
           value={searchTerm}
           onChange={handleSearch}
         />
@@ -72,7 +73,7 @@ export const UserSearch = () => {
           <ul className="suggestions">
             {filteredUsers.map((user) => (
               <li key={user.id} onClick={() => handleSelectUser(user)}>
-                {user.name} {user.role} - {user.user_name}
+                {user.role} - {user.user_name}
               </li>
             ))}
             {filteredUsers.length === 0 && <li>No se encontraron resultados</li>}
@@ -83,9 +84,8 @@ export const UserSearch = () => {
         {selectedUser && (
           <div className="user-details">
             <h2>Información del Usuario</h2>
-            <p><strong>Cédula:</strong> {selectedUser.user_name}</p>
-            <p><strong>name:</strong> {selectedUser.name}</p>
-            <p><strong>role:</strong> {selectedUser.role}</p>
+            <p><strong>User Name:</strong> {selectedUser.user_name}</p>
+            <p><strong>Role:</strong> {selectedUser.role}</p>
             <div>
               <button className="btn" onClick={handleEditUser}>Edit</button>
               <button className="btn info">Traer todos los datos del colaborador</button>

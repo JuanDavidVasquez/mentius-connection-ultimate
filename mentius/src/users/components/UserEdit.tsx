@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 export const UserEdit = () => {
-  const { user } = useSelector(state => state.users);
+  const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
   const [initialValues, setInitialValues] = useState({
@@ -20,70 +20,68 @@ export const UserEdit = () => {
 
   useEffect(() => {
     if (user) {
-        setInitialValues({
-            id: user.id || "", 
-            user_name: user.user_name || "",
-            password: user.password || "", 
-            role: user.role || "", 
-        });
+      setInitialValues({
+        id: user.id || "",
+        user_name: user.user_name || "",
+        password: user.password || "",
+        role: user.role || "",
+      });
     }
-}, [user]);
+  }, [user]);
 
+  if (!user) {
+    return <div>Loading...</div>; // Asegúrate de mostrar esto si el usuario no está disponible
+  }
 
   return (
     <div>
       <h1>Edit user: {user.user_name}</h1>
+      <Formik
+        initialValues={initialValues}
+        enableReinitialize={true}
+        onSubmit={(values, { resetForm }) => {
+          console.log("Updated User Data:", values);
+          dispatch(updateUser(values));
+          toast.success("User Updated successfully!");
+          resetForm();
+        }}
+        validationSchema={Yup.object({
+          user_name: Yup.string()
+            .max(15, "Must be 15 characters or less")
+            .required("Required"),
+          password: Yup.string()
+            .max(20, "Must be 20 characters or less")
+            .required("Required"),
+          role: Yup.string().required("Required"),
+        })}
+      >
+        {(formik) => (
+          <Form>
+            <MyTextInput
+              label="User Name"
+              name="user_name"
+              type="text" // Asegúrate de que el tipo sea 'text' y no 'number'
+              placeholder="User Name"
+            />
+            <MyTextInput
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="Password"
+            />
+            <MySelect label="Role" name="role">
+              <option value="">Select a role</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+            </MySelect>
 
-      {user ? (
-        <Formik
-          initialValues={initialValues}
-          enableReinitialize={true}
-          onSubmit={(values, { resetForm }) => { 
-            console.log("Updated User Data:", values);
-            dispatch(updateUser(values));
-            toast.success("User Updated successfully!"); 
-            resetForm(); 
-          }}
-          validationSchema={Yup.object({
-            user_name: Yup.string()
-              .max(15, "Must be 15 characters or less")
-              .required("Required"),
-            password: Yup.string()
-              .max(20, "Must be 20 characters or less")
-              .required("Required"),
-            role: Yup.string().required("Required"),
-          })}
-        >
-          {(formik) => (
-            <Form>
-              <MyTextInput
-                      label="User Name"
-                      name="user_name"
-                      type="number"
-                      placeholder="User Name"
-                  />
-              <MyTextInput
-                label="Password"
-                name="password"
-                type="password"
-                placeholder="Password"
-              />
-              <MySelect label="Role" name="role">
-                <option value="">Select a role</option>
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-              </MySelect>
-
-              <button type="submit" className="btn">
-                Update User
-              </button>
-            </Form>
-          )}
-        </Formik>
-      ) : (
-        <div>Loading...</div>
-      )}
-       <ToastContainer />
+            <button type="submit" className="btn">
+              Update User
+            </button>
+          </Form>
+        )}
+      </Formik>
+      <ToastContainer />
     </div>
   );
 };
