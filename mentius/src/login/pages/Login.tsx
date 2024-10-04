@@ -4,6 +4,8 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { MyCheckbox, MyTextInput } from "../../utils/forms";
 import NeuronParticles from "../../utils/animations/neuronParticle";
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/auth/thunk';
 
 const tl = gsap.timeline({ repeat: -1, yoyo: true });
 
@@ -27,6 +29,7 @@ const animateLetters = (element: HTMLHeadingElement) => {
 };
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const titleLogin = "Login";
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -59,23 +62,22 @@ export const Login = () => {
       <h1 ref={titleRef} className="titleLogin">
         {titleLogin.split("").map((letter, index) => (
           <span key={index}>{letter}</span>
-        ))} 
+        ))}
       </h1>
       <div className="mentius-title">Mentius Connection</div>
       <div className="container-login">
         <Formik
           initialValues={{
-            userName: "",
+            user_name: "",
             password: "",
             terms: false,
           }}
           onSubmit={(values) => {
-           
-            console.log(values);
+            dispatch(login(values));
             animateLoginIn();
           }}
           validationSchema={Yup.object().shape({
-            userName: Yup.string()
+            user_name: Yup.string()
               .required("Required")
               .min(3, "Minimum 3 characters")
               .max(15, "Maximum 15 characters"),
@@ -89,10 +91,10 @@ export const Login = () => {
           {(formik) => (
             <Form>
               <MyTextInput
-                label="Username"
-                name="userName"
+                label="user_name"
+                name="user_name"
                 type="text"
-                placeholder="Username"
+                placeholder="user_name"
               />
               <MyTextInput
                 label="Password"

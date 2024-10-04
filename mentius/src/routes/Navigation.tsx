@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   BrowserRouter,
   Navigate,
@@ -9,8 +9,29 @@ import {
 import { routesHome, routesLogin } from "./routes";
 import logo from '../assets/logoBlanco.png'
 
+import { useDispatch, useSelector } from "react-redux";
+import { changeStatus } from "../store/auth/thunk";
+
 export const Navigation = () => {
-  const [auth, setAuth] = useState(true);
+  const [auth, setAuth] = useState(false);
+
+  const dispatch = useDispatch();
+  const { status, dataUser } = useSelector( state => state.auth );
+
+
+
+  useEffect(()=>{
+
+    const token = localStorage.getItem("token");
+
+      if(token){
+        dispatch(changeStatus());
+        setAuth(true);
+      }
+
+   
+  },[status]);
+
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -32,6 +53,7 @@ export const Navigation = () => {
           <div className="main-layout">
             <nav>
               <img src={logo} alt="logo" className="logo-layout"/>
+              <h1 style={{textAlign:'center'}}>{dataUser && dataUser.user_name}</h1>
               <ul>
                 {routesHome.map((route) => (
                   <li key={route.path}>

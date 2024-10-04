@@ -1,9 +1,12 @@
 
 import { UserSearch } from '../components/UserSearch'
 import '../assets/userStyles.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '../components/User';
 import { UserEdit } from '../components/UserEdit';
+
+import { getUsers } from '../../store/users/index';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export const Users = () => {
@@ -16,6 +19,13 @@ export const Users = () => {
     const handleToggleEdit = () => {
         setEditUserToggle(!editUserToggle);
     }
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getUsers());
+    }, []);
+
 
 
   return (
