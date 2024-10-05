@@ -3,12 +3,15 @@ import * as Yup from "yup";
 import { MySelect, MyTextInput } from "../../utils/forms";
 import { useDispatch } from "react-redux";
 import { createNewUser } from "../../store/users";
-import { ToastContainer, toast } from "react-toastify"; 
-import 'react-toastify/dist/ReactToastify.css';
+import { toastActive } from "../../store/hooks/toastSlice";
+
+
 
 export const User = () => {
 
     const dispatch = useDispatch();
+
+
 
   return (
     <div>
@@ -22,9 +25,8 @@ export const User = () => {
             }}
             onSubmit={(values, { resetForm }) => {
                 dispatch(createNewUser(values));
-                toast.success("User created successfully!"); 
+                dispatch(toastActive({ message: 'Role deleted successfully!' }));
                 resetForm(); 
-                console.log(values);
             }}
             validationSchema={Yup.object({
                 user_name: Yup.string()
@@ -62,7 +64,7 @@ export const User = () => {
               )}
 
         </Formik>
-        <ToastContainer />
+      
     </div>
   )
 }

@@ -11,6 +11,8 @@ import logo from '../assets/logoBlanco.png'
 
 import { useDispatch, useSelector } from "react-redux";
 import { changeStatus } from "../store/auth/thunk";
+import { ToastActive } from "../hooks/ToastActive";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Navigation = () => {
   const [auth, setAuth] = useState(false);
@@ -35,7 +37,10 @@ export const Navigation = () => {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
+       
       <BrowserRouter>
+
+      <ToastActive/>
         {auth === false &&
             <Routes>
           {routesLogin.map(({ path, Component }) => (

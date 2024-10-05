@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
+
+
 export const Users = () => {
     const [createUserToggle, setCreateUserToggle] = useState<boolean>(false);
     const [editUserToggle, setEditUserToggle] = useState<boolean>(false);
@@ -36,7 +38,6 @@ export const Users = () => {
   return (
     <>
         <h1>Users</h1>
-
         <main className='mainUser'>
         <section className='user-details-section section-users'>
             <button 
@@ -55,7 +56,6 @@ export const Users = () => {
                     {editUserToggle && <UserEdit/>}         
             </section>
         </main>
-
     </>
   )
 }

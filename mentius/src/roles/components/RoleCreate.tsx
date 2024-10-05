@@ -2,10 +2,14 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { MyTextInput } from "../../utils/forms";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { newRole } from "../../store/roles/roleSlice";
+import { toastActive } from "../../store/hooks/toastSlice";
+
 
 interface RoleCreateProps {
     activeModalCreate: boolean;
-    onClose: () => void; // Función para cerrar el modal
+    onClose: () => void;
 }
 
 export const RoleCreate = ({ activeModalCreate, onClose }: RoleCreateProps) => {
@@ -15,6 +19,10 @@ export const RoleCreate = ({ activeModalCreate, onClose }: RoleCreateProps) => {
     setIsExiting(true); // Inicia la animación de salida
     setTimeout(onClose, 500); // Espera a que termine la animación para cerrar el modal
   };
+
+  const dispatch = useDispatch();
+
+
 
   return (
     <div className={`modal ${activeModalCreate ? "modal-active" : ""} ${isExiting ? "modal-exit" : ""}`}>
@@ -35,7 +43,9 @@ export const RoleCreate = ({ activeModalCreate, onClose }: RoleCreateProps) => {
             })}
             onSubmit={(values) => {
                 console.log(values);
-                handleClose(); // Cierra el modal después de enviar
+                dispatch(newRole(values));
+                dispatch(toastActive({ message: 'Role created successfully!' }));
+                handleClose(); 
             }}
         >
             {(formik) => (

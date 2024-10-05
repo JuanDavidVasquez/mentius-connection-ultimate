@@ -4,8 +4,8 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from 'react-redux'; 
 import { MySelect, MyTextInput } from "../../utils/forms";
 import { updateUser } from "../../store/users";
-import { ToastContainer, toast } from "react-toastify"; 
-import 'react-toastify/dist/ReactToastify.css';
+import { toastActive } from "../../store/hooks/toastSlice";
+
 
 export const UserEdit = () => {
   const { user } = useSelector((state) => state.users);
@@ -42,7 +42,7 @@ export const UserEdit = () => {
         onSubmit={(values, { resetForm }) => {
           console.log("Updated User Data:", values);
           dispatch(updateUser(values));
-          toast.success("User Updated successfully!");
+          dispatch(toastActive({ message: 'User Edit successfully!' }));
           resetForm();
         }}
         validationSchema={Yup.object({
@@ -60,7 +60,7 @@ export const UserEdit = () => {
             <MyTextInput
               label="User Name"
               name="user_name"
-              type="text" // Asegúrate de que el tipo sea 'text' y no 'number'
+              type="text" 
               placeholder="User Name"
             />
             <MyTextInput
@@ -81,7 +81,6 @@ export const UserEdit = () => {
           </Form>
         )}
       </Formik>
-      <ToastContainer />
     </div>
   );
 };
