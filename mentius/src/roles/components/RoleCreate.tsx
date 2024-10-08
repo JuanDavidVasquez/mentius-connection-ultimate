@@ -16,8 +16,8 @@ export const RoleCreate = ({ activeModalCreate, onClose }: RoleCreateProps) => {
   const [isExiting, setIsExiting] = useState(false);
 
   const handleClose = () => {
-    setIsExiting(true); // Inicia la animación de salida
-    setTimeout(onClose, 500); // Espera a que termine la animación para cerrar el modal
+    setIsExiting(true);
+    setTimeout(onClose, 500); 
   };
 
   const dispatch = useDispatch();

@@ -52,6 +52,7 @@ export const createNewPermiso = (permiso: any) => {
   }
 
   export const updatePermisoThunk = (permiso: any) =>{
+    console.log(permiso);
     return async (dispatch:Dispatch) => {
         dispatch(isLoading());
         try {

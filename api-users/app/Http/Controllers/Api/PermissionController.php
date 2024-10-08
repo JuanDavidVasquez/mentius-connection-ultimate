@@ -22,7 +22,7 @@ class PermissionController extends Controller
     }
 
     // Almacenar un nuevo permiso
-    public function store(Request $request)
+    public function store(Request $request,)
     {
         $authenticatedUser = $request->user();
         
@@ -53,32 +53,40 @@ class PermissionController extends Controller
     }
 
     // Actualizar un permiso existente
-    public function update(Request $request, Permission $permission)
+    public function update(Request $request, $id)
     {
         $authenticatedUser = $request->user();
         
         if (!$authenticatedUser) {
             return response()->json(["error" => "Usuario no autenticado"], 404);
         }
+        
+        $permission = Permission::find($id);
 
         $request->validate([
-            'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
+            'name' => 'required|string|max:255|unique:permissions,name,' . $id,
             'description' => 'nullable|string',
         ]);
 
+      
+
         $permission->update($request->all());
+
+        return $permission;
 
         return response()->json($permission);
     }
 
     // Eliminar un permiso
-    public function destroy(Request $request, Permission $permission)
+    public function destroy(Request $request, $id)
     {
         $authenticatedUser = $request->user();
         
         if (!$authenticatedUser) {
             return response()->json(["error" => "Usuario no autenticado"], 404);
         }
+
+        $permission = Permission::find($id);
 
         $permission->delete();
 
