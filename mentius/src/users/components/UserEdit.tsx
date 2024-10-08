@@ -8,7 +8,7 @@ import { toastActive } from "../../store/hooks/toastSlice";
 
 
 export const UserEdit = () => {
-  const { user } = useSelector((state) => state.users);
+  const { user } = useSelector((state: { users: { user: any } }) => state.users);
   const dispatch = useDispatch();
 
   const [initialValues, setInitialValues] = useState({
@@ -30,7 +30,7 @@ export const UserEdit = () => {
   }, [user]);
 
   if (!user) {
-    return <div>Loading...</div>; // Asegúrate de mostrar esto si el usuario no está disponible
+    return <div>Loading...</div>;
   }
 
   return (
@@ -69,7 +69,7 @@ export const UserEdit = () => {
               type="password"
               placeholder="Password"
             />
-            <MySelect label="Role" name="role">
+            <MySelect label="Role" name="role" value={initialValues.role}>
               <option value="">Select a role</option>
               <option value="admin">Admin</option>
               <option value="user">User</option>

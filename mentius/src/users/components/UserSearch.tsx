@@ -15,7 +15,7 @@ const selectedUserAction = (user: User) => ({
 
 export const UserSearch = () => {
   const dispatch = useDispatch();
-  const { users } = useSelector(state => state.users);
+  const { users } = useSelector((state: { users: { users: User[] } }) => state.users);
   const [usersData, setUsersData] = useState<User[]>(users || []);
 
   useEffect(() => {

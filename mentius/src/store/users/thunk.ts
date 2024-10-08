@@ -2,6 +2,12 @@ import { userApi } from "./userApi";
 import { isLoading, setUsers, setUser, addUser, removeUser } from "./userSlice";
 import { Dispatch } from "@reduxjs/toolkit";
 
+interface User {
+  id: number;
+  name: string;
+  password?: string;
+  role?: string;
+}
 
 export const getUsers = () => {
   return async (dispatch:Dispatch) => {
@@ -25,14 +31,13 @@ export const getUsers = () => {
   };
 };
 
-export const getUser = (user) => {
+export const getUser = (user: any) => {
   return async (dispatch:Dispatch) => {
     dispatch(setUser({ user }));
   };
 };
 
-export const createNewUser = (user) =>{
-  console.log(user);
+export const createNewUser = (user: any) =>{
     return async (dispatch:Dispatch) => {
       dispatch(isLoading()); 
       try {
@@ -53,7 +58,7 @@ export const createNewUser = (user) =>{
     }
   }
 
-  export const removeUsuario = (id) => {
+  export const removeUsuario = (id: number) => {
     return async (dispatch:Dispatch) => {
       dispatch(isLoading());
       try {
@@ -63,7 +68,7 @@ export const createNewUser = (user) =>{
             Authorization: `Bearer ${token}`,
           },
         };
-        const { data } = await userApi.delete(`users/${id}`, config);
+        await userApi.delete(`users/${id}`, config);
         dispatch(removeUser({ id }));
       } catch (error) {
         console.log(error);
@@ -71,7 +76,7 @@ export const createNewUser = (user) =>{
     }
   };
 
-  export const updateUser = (user) => {
+  export const updateUser = (user: User) => {
     return async (dispatch:Dispatch) => {
       dispatch(isLoading());
       try {
@@ -90,7 +95,7 @@ export const createNewUser = (user) =>{
     }
   };
 
-  export const updateUserPassword = (user) => {
+  export const updateUserPassword = (user: any) => {
     return async (dispatch:Dispatch) => {
       dispatch(isLoading());
       try {

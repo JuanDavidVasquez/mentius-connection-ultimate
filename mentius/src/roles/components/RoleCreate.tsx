@@ -3,8 +3,8 @@ import * as Yup from "yup";
 import { MyTextInput } from "../../utils/forms";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { newRole } from "../../store/roles/roleSlice";
 import { toastActive } from "../../store/hooks/toastSlice";
+import { createNewRole } from "../../store/roles/thunk";
 
 
 interface RoleCreateProps {
@@ -43,7 +43,7 @@ export const RoleCreate = ({ activeModalCreate, onClose }: RoleCreateProps) => {
             })}
             onSubmit={(values) => {
                 console.log(values);
-                dispatch(newRole(values));
+                dispatch(createNewRole(values));
                 dispatch(toastActive({ message: 'Role created successfully!' }));
                 handleClose(); 
             }}

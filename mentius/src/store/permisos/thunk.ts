@@ -1,8 +1,8 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { roleApi } from "./roleApi";
-import { addRole, isLoading, setRole, setRoles, updateRole, removeRole } from "./roleSlice";
+import { permisoApi } from "./permisoApi";
+import { addPermiso, isLoading, setPermiso, setPermisos, updatePermiso, removePermiso } from "./permisoSlice";
 
-export const getRoles = () => {
+export const getPermisos = () => {
     return async (dispatch: Dispatch) => {
         try {
             const token = localStorage.getItem("token");
@@ -14,23 +14,23 @@ export const getRoles = () => {
                 },
             };
 
-            const { data } = await roleApi.get("roles", config);
+            const { data } = await permisoApi.get("permisos", config);
 
-            dispatch(setRoles({ roles: data }));
+            dispatch(setPermisos({ permisos: data }));
         } catch (error) {   
             console.log(error);
         }
     };  
 };
 
-export const getRole = (role) => {
+export const getPermiso = (permiso: any) => {
     return async (dispatch: Dispatch) => {
-        dispatch(setRoles({ role }));
+        dispatch(setPermiso({ permiso }));
     };
 };
 
-export const createNewRole = (role) => {
-    console.log(role, 'desde el thunk');
+export const createNewPermiso = (permiso: any) => {
+    console.log(permiso);
     return async (dispatch:Dispatch) => {
       dispatch(isLoading()); 
       try {
@@ -41,9 +41,9 @@ export const createNewRole = (role) => {
           },
         };
   
-        const { data } = await roleApi.post(`roles`,role, config);
+        const { data } = await permisoApi.post(`permisos`,permiso, config);
 
-        dispatch(addRole({ role: data }));
+        dispatch(addPermiso({ permiso: data }));
 
       } catch (error) {
         console.log(error);
@@ -51,7 +51,7 @@ export const createNewRole = (role) => {
     }
   }
 
-  export const updateRoleThunk = (role) =>{
+  export const updatePermisoThunk = (permiso: any) =>{
     return async (dispatch:Dispatch) => {
         dispatch(isLoading());
         try {
@@ -61,9 +61,9 @@ export const createNewRole = (role) => {
               Authorization: `Bearer ${token}`,
             },
           };
-          const { data } = await roleApi.put(`roles/${role.id}`, role, config);
-          dispatch(setRole({ role: data }));
-          dispatch(updateRole({ role: data }));
+          const { data } = await permisoApi.put(`permisos/${permiso.id}`, permiso, config);
+          dispatch(setPermiso({ permiso: data }));
+          dispatch(updatePermiso({ permiso: data }));
         }
         catch (error) {
           console.log(error);
@@ -71,7 +71,7 @@ export const createNewRole = (role) => {
       }
     };
 
-    export const removeRoleThunk = (id) => {
+    export const removePermisoThunk = (id: any) => {
         return async (dispatch:Dispatch) => {
             dispatch(isLoading());
             try {
@@ -81,8 +81,8 @@ export const createNewRole = (role) => {
                   Authorization: `Bearer ${token}`,
                 },
               };
-              const { data } = await roleApi.delete(`roles/${id}`, config);
-              dispatch(removeRole({ id }));
+              const { data } = await permisoApi.delete(`permisos/${id}`, config);
+              dispatch(removePermiso({ id }));
             } catch (error) {
               console.log(error);
             }

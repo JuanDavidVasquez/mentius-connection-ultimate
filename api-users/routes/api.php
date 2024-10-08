@@ -51,6 +51,6 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('roles',RoleController::class);
     Route::resource('roles-permissions',PermissionRoleController::class);
     Route::resource('roles-users',RoleUserController::class);
-    Route::resource('permissions',PermissionController::class);
+    Route::resource('permisos',PermissionController::class);
 
 });
