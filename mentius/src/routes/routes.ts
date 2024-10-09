@@ -46,17 +46,24 @@ export const routesHome: Route[] = [
         Component: lazy(() => import("../roles/pages/Roles")),
         name: "Roles",
     },
+    
+    {
+        path: "/permisos",
+        to: "/permisos",
+        Component: lazy(() => import("../permisos/pages/Permisos")),
+        name: "Permisos",
+    },
+    {
+        path: "/permisos-role",
+        to: "/permisos-role",
+        Component: lazy(() => import("../permisosRole/page/PermisosRole")),
+        name: "Permisos del Role",
+    },
     {
         path: "/asistencia",
         to: "/asistencia",
         Component: lazy(() => import("../asistencia/pages/Asistencia")),
         name: "Asistencia",
     },
-    {
-        path: "/permisos",
-        to: "/permisos",
-        Component: lazy(() => import("../permisos/pages/Permisos")),
-        name: "Permisos",
-    }
 
 ];

@@ -5,25 +5,25 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\PermisoRol;
 use Illuminate\Http\Request;
 
 class PermissionRoleController extends Controller
 {
     // Mostrar todos los permisos de un rol específico
-    public function index(Request $request, Role $role)
+    public function index(Request $request)
     {
         $authenticatedUser = $request->user();
         
         if (!$authenticatedUser) {
             return response()->json(["error" => "Usuario no autenticado"], 404);
         }
-
-        $permissions = $role->permissions; // Asumiendo que tienes una relación definida en el modelo Role
+        $permissions = PermisoRol::all(); 
         return response()->json($permissions);
     }
 
-    // Almacenar un nuevo permiso para un rol
-    public function store(Request $request, Role $role)
+    // Asignar permisos a un rol
+    public function store(Request $request)
     {
         $authenticatedUser = $request->user();
         
@@ -32,16 +32,29 @@ class PermissionRoleController extends Controller
         }
 
         $request->validate([
-            'permission_id' => 'required|exists:permissions,id',
+            'role_id' => 'required',
+            'permisos_id' => 'required',
         ]);
 
-        $role->permissions()->attach($request->permission_id); // Asumiendo que tienes una relación definida en el modelo Role
+        $role = Role::find($request->role_id);
+        if (!$role) {
+            return response()->json(["error" => "Rol no encontrado"], 404);
+        }
 
-        return response()->json(["message" => "Permiso asignado exitosamente."], 201);
+        $permission = Permission::find($request->permisos_id);
+        if (!$permission) {
+            return response()->json(["error" => "Permiso no encontrado"], 404);
+        }
+
+        $permissionRole = new PermisoRol();
+        $permissionRole->role_id = $request->role_id;
+        $permissionRole->permisos_id = $request->permisos_id;
+        $permissionRole->save();
+
+        return response()->json($permissionRole);
     }
-
-    // Eliminar un permiso de un rol
-    public function destroy(Request $request, Role $role, $permissionId)
+    // Eliminar permisos de un rol
+    public function destroy(Request $request, $id)
     {
         $authenticatedUser = $request->user();
         
@@ -49,8 +62,67 @@ class PermissionRoleController extends Controller
             return response()->json(["error" => "Usuario no autenticado"], 404);
         }
 
-        $role->permissions()->detach($permissionId); // Asumiendo que tienes una relación definida en el modelo Role
+        $permissionRole = PermisoRol::find($id);
+        if (!$permissionRole) {
+            return response()->json(["error" => "Permiso no encontrado"], 404);
+        }
 
-        return response()->json(["message" => "Permiso eliminado exitosamente."], 204);
+        $permissionRole->delete();
+
+        return response()->json(["message" => "Permiso eliminado"]);
     }
+
+    // Mostrar un permiso de un rol específico
+    public function show(Request $request, $id)
+    {
+        $authenticatedUser = $request->user();
+        
+        if (!$authenticatedUser) {
+            return response()->json(["error" => "Usuario no autenticado"], 404);
+        }
+
+        $permissionRole = PermisoRol::find($id);
+        if (!$permissionRole) {
+            return response()->json(["error" => "Permiso no encontrado"], 404);
+        }
+
+        return response()->json($permissionRole);
+    }
+
+    // Actualizar un permiso de un rol específico
+    public function update(Request $request, $id)
+    {
+        $authenticatedUser = $request->user();
+        
+        if (!$authenticatedUser) {
+            return response()->json(["error" => "Usuario no autenticado"], 404);
+        }
+
+        $permissionRole = PermisoRol::find($id);
+        if (!$permissionRole) {
+            return response()->json(["error" => "Permiso no encontrado"], 404);
+        }
+
+        $request->validate([
+            'role_id' => 'required',
+            'permisos_id' => 'required',
+        ]);
+
+        $role = Role::find($request->role_id);
+        if (!$role) {
+            return response()->json(["error" => "Rol no encontrado"], 404);
+        }
+
+        $permission = Permission::find($request->permisos_id);
+        if (!$permission) {
+            return response()->json(["error" => "Permiso no encontrado"], 404);
+        }
+
+        $permissionRole->role_id = $request->role_id;
+        $permissionRole->permisos_id = $request->permisos_id;
+        $permissionRole->save();
+
+        return response()->json($permissionRole);
+    }
+
 }

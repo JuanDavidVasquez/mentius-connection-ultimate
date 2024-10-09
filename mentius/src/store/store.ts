@@ -4,6 +4,7 @@ import { usersSlice } from './users';
 import { roleSlice } from './roles';
 import toastSlice from './hooks/toastSlice';
 import { permisoSlice } from './permisos';
+import { permisosRoleSlice } from './permisosRole';
 
 
 
@@ -14,5 +15,6 @@ export const store = configureStore({
     users: usersSlice.reducer,
     roles: roleSlice.reducer,
     permisos: permisoSlice.reducer,
+    permisosRole: permisosRoleSlice.reducer,
   },
 });
