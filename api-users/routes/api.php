@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BiometricoController;
+use App\Http\Controllers\Api\BiometricosPrestamoController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\PermissionRoleController;
 use App\Http\Controllers\Api\RoleController;
@@ -53,4 +55,15 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('roles-users',RoleUserController::class);
     Route::resource('permisos',PermissionController::class);
 
+/*
+|--------------------------------------------------------------------------
+| Biometricos
+|--------------------------------------------------------------------------
+*/
+
+    Route::resource('biometricos',BiometricoController::class);
+    Route::resource('biometricos-prestamos',BiometricosPrestamoController::class);
+
 });
+
+

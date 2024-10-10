@@ -14,9 +14,21 @@ class PermisoRol extends Model
     ];
 
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at',
+        'updated_at'
     ];
 
     protected $table = 'permisos_roles';
 
+    // Definición de la relación con el modelo Role
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    // Definición de la relación con el modelo Permission
+    public function permission()
+    {
+        return $this->belongsTo(Permission::class, 'permisos_id');
+    }
 }

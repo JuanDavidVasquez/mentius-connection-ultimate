@@ -60,6 +60,12 @@ export const routesHome: Route[] = [
         name: "Permisos del Role",
     },
     {
+        path: "/biometricos",
+        to: "/biometricos",
+        Component: lazy(() => import("../biometricos/pages/Biometricos")),
+        name: "Biometricos",
+    },
+    {
         path: "/asistencia",
         to: "/asistencia",
         Component: lazy(() => import("../asistencia/pages/Asistencia")),
