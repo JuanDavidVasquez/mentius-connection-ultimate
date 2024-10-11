@@ -533,5 +533,9 @@ nav li a {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 1em;
+  gap: 1.5em;
+}
+
+.container-create-colaborador{
+  width: 100%;
 }
