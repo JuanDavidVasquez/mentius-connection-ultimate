@@ -1,13 +1,19 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import { MySelect, MyTextInput } from "../../utils/forms";
+import { updatePersona } from "../../store/personas/thunk";
+import { toastActive } from "../../store/hooks/toastSlice";
 
 export const EditarPersona = () => {
   const persona = useSelector((state: any) => state.personas.persona);
+  const [formValues, setFormValues] = useState<{ [key: string]: any }>({});
+const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(persona);
+    if (persona) {
+      setFormValues(persona);
+    }
   }, [persona]);
 
   // Verificar si persona tiene datos
@@ -17,19 +23,27 @@ export const EditarPersona = () => {
 
   return (
     <div className="container-editar-persona">
-      <h2>Editar datos Personales de: {persona.primer_nombre}</h2>
+      <h2>Editar datos Personales de: {formValues.primer_nombre || ""}</h2>
       <Formik
-        initialValues={persona}
-        onSubmit={(values) => {
-          console.log(values); // Aquí puedes manejar la lógica de envío del formulario
-        }}
+        initialValues={formValues}
+        enableReinitialize 
+        onSubmit={async (values) => {
+            console.log(values); 
+            const response = await dispatch(updatePersona(values));
+          
+            // Verificar si la respuesta tiene la propiedad error
+            if (response && response.error) {
+              dispatch(toastActive({ message: response.error, type: 'error' }));
+            } else if (response && response.success) {
+              dispatch(toastActive({ message: response.message, type: 'success' }));
+            } else {
+              dispatch(toastActive({ message: "Operación no reconocida", type: 'error' }));
+            }
+          }}
+          
+          
       >
-        {({ values, handleChange, setValues }) => {
-          // Efecto para actualizar los valores del formulario cuando cambie persona
-          useEffect(() => {
-            setValues(persona); // Actualiza los valores del formulario cuando persona cambia
-          }, [persona, setValues]);
-
+        {({ values, handleChange }) => {
           return (
             <Form>
               <div className="formulario-persona">
@@ -53,7 +67,7 @@ export const EditarPersona = () => {
                           : "text"
                       }
                       onChange={handleChange}
-                      value={values[field]}
+                      value={values[field] !== null && values[field] !== "" ? values[field] : ""}
                     />
                   ))}
 
