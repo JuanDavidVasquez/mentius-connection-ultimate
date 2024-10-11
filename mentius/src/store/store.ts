@@ -6,6 +6,7 @@ import toastSlice from './hooks/toastSlice';
 import { permisoSlice } from './permisos';
 import { permisosRoleSlice } from './permisosRole';
 import { biometricoSlice } from './biometricos/biometricoSlice';
+import { personasSlice } from './personas';
 
 
 
@@ -14,6 +15,7 @@ export const store = configureStore({
     auth: authSlice.reducer,
     toastActive: toastSlice,
     users: usersSlice.reducer,
+    personas: personasSlice.reducer,
     roles: roleSlice.reducer,
     permisos: permisoSlice.reducer,
     permisosRole: permisosRoleSlice.reducer,

@@ -4,16 +4,19 @@ interface Props {
   label: string;
   name: string;
   placeholder?: string;
+  children: React.ReactNode; 
   [x: string]: any;
 }
 
-export const MySelect = ({ label, ...props }: Props) => {
+export const MySelect = ({ label, children, ...props }: Props) => {
   const [field] = useField(props);
 
   return (
     <div className="select">
       <label htmlFor={props.id || props.name}>{label}</label>
-      <select {...field} {...props} />
+      <select {...field} {...props}>
+      {children}
+        </select>
 
       <ErrorMessage
         name={props.name}
