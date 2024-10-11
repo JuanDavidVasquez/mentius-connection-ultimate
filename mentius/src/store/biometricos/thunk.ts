@@ -64,3 +64,20 @@ export const createBiometrico = (biometrico: any) => {
     };
   };
   
+  export const prestamoBiometrico = (biometrico: any) => {
+    return async (dispatch: any) => {
+      try {
+        const token = localStorage.getItem("token");
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+          const { data } = await biometricoApi.post("/biometricos-prestamos", biometrico, config);
+          return { success: true, message: "Biométrico prestado correctamente", prestamo: data };
+      } catch (error) {
+        console.log(error);
+        return { error: (error as any).response?.data?.error || "Error al prestar el biométrico" };
+      }
+    }
+  };

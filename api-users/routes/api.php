@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\BiometricoController;
 use App\Http\Controllers\Api\BiometricosPrestamoController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\PermissionRoleController;
+use App\Http\Controllers\Api\PersonaController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\RoleUserController;
 use App\Http\Controllers\Api\UserController;
@@ -63,6 +64,14 @@ Route::middleware('auth:api')->group(function () {
 
     Route::resource('biometricos',BiometricoController::class);
     Route::resource('biometricos-prestamos',BiometricosPrestamoController::class);
+
+/*
+|--------------------------------------------------------------------------
+| Personas
+|--------------------------------------------------------------------------
+*/
+
+    Route::resource('personas',PersonaController::class);
 
 });
 

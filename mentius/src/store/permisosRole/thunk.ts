@@ -47,7 +47,8 @@ export const createNewPermisoRole = (permisoRole: any) => {
         console.log(error);
         
         // Retorna el error para manejarlo en el componente
-        return { error: error.response?.data?.error || "Error al asignar permisos" };
+        const errorMessage = (error as any).response?.data?.error || "Error al asignar permisos";
+        return { error: errorMessage };
       }
     };
   };

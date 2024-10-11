@@ -6,6 +6,7 @@ import { getBiometricos } from "../../store/biometricos/thunk";
 import { MySearch } from "../../utils/forms";
 import { setBiometrico } from "../../store/biometricos/biometricoSlice";
 import { BiometricoEdit } from "../components/BiometricoEdit";
+import { BiometricoPrestamo } from "../components/BiometricoPrestamo";
 
 interface Biometrico {
     id: number;
@@ -75,6 +76,9 @@ export const Biometricos: React.FC = () => {
 
        <BiometricoEdit/>
   
+      <div className="container-prestamo">
+        <BiometricoPrestamo/>
+      </div>
 
     </div>
   );
