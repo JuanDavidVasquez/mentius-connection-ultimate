@@ -49,10 +49,10 @@ export const Colaboradores = () => {
 
       <EditarPersona />
 
-      <h2>Información del Colaborador</h2>
+      {/* <h2>Información del Colaborador</h2>
       <div className="myPersonalData-container">
         <MyPersonalData />
-      </div>
+      </div> */}
     </div>
   );
 };

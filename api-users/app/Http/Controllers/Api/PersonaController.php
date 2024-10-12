@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PersonaController extends Controller
 {
@@ -37,11 +38,16 @@ class PersonaController extends Controller
     // Crear una nueva persona
     public function store(Request $request)
     {
-       
         // Validar los datos
         $validatedData = $request->validate([
             'id_user' => 'required|exists:users,id',
-            'cedula' => 'required|unique:personas,cedula|max:20',
+            'cedula' => [
+                'required',
+                'max:20',
+                Rule::unique('personas')->where(function ($query) use ($request) {
+                    return $query->where('id_user', $request->id_user);
+                }),
+            ],
             'primer_nombre' => 'required|string|max:50',
             'segundo_nombre' => 'nullable|string|max:50',
             'primer_apellido' => 'required|string|max:50',
@@ -54,17 +60,16 @@ class PersonaController extends Controller
             'estado_civil' => 'nullable|string',
             'estado_en_la_empresa' => 'required|string',
         ]);
-
-     
-
+    
         // Crear una nueva persona
         $persona = Persona::create($validatedData);
-       
+    
         return response()->json([
             'message' => 'Persona creada correctamente',
             'data' => $persona
         ], 201); // Código 201 para creación exitosa
     }
+    
 
     // Actualizar una persona existente
     public function update(Request $request, $id)

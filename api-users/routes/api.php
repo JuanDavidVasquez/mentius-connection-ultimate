@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PersonaController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\RoleUserController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\SistemaUsuarioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -72,6 +73,16 @@ Route::middleware('auth:api')->group(function () {
 */
 
     Route::resource('personas',PersonaController::class);
+
+    /*
+|--------------------------------------------------------------------------
+| Sistema de usuarios (usuarios de los diferentes app)
+|--------------------------------------------------------------------------
+*/
+    
+    Route::resource('sistema-usuarios',SistemaUsuarioController::class);
+
+    
 
 });
 
