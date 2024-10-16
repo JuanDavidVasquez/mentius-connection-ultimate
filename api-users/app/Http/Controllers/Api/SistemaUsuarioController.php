@@ -48,44 +48,73 @@ class SistemaUsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos recibidos
-        $validatedData = $request->validate([
-            'cedula' => 'nullable|string|unique:sistema_usuarios,cedula',
-            'usuario_RED' => 'nullable|string',
-            'id_walter_bridge' => 'nullable|string',
-            'id_biometrico' => 'nullable|string',
-            'correo_mentius' => 'nullable|string',
-            'pure_cloud' => 'nullable|string',
-            'usuario_sap' => 'nullable|string',
-            'usuario_c4c' => 'nullable|string',
-            'rtrweb' => 'nullable|string',
-            's4hanna' => 'nullable|string',
-            'usuario_crm' => 'nullable|string',
-            'codigo_vendedor' => 'nullable|string',
-            'usuario_ucontact' => 'nullable|string',
-            'agent_genesys' => 'nullable|string',
-            'usuario_confronta' => 'nullable|string',
-            'usuario_app_times' => 'nullable|string',
-        ]);
-
         try {
+            // Validar los datos recibidos
+            $validatedData = $request->validate([
+                'cedula' => 'nullable|string|unique:sistema_usuarios,cedula',
+                'usuario_RED' => 'nullable|string',
+                'id_walter_bridge' => 'nullable|string',
+                'id_biometrico' => 'nullable|string',
+                'correo_mentius' => 'nullable|string',
+                'pure_cloud' => 'nullable|string',
+                'usuario_sap' => 'nullable|string',
+                'usuario_c4c' => 'nullable|string',
+                'rtrweb' => 'nullable|string',
+                's4hanna' => 'nullable|string',
+                'usuario_crm' => 'nullable|string',
+                'codigo_vendedor' => 'nullable|string',
+                'usuario_ucontact' => 'nullable|string',
+                'agent_genesys' => 'nullable|string',
+                'usuario_confronta' => 'nullable|string',
+                'usuario_app_times' => 'nullable|string|unique:sistema_usuarios,usuario_app_times',
+            ]);
+    
+            // Verificar que no exista otra cédula con el mismo id_biometrico
+            if (!empty($validatedData['cedula']) && !empty($validatedData['id_biometrico'])) {
+                $existingUser = SistemaUsuario::where('cedula', '!=', $validatedData['cedula'])
+                    ->where('id_biometrico', $validatedData['id_biometrico'])
+                    ->first();
+    
+                if ($existingUser) {
+                    return response()->json([
+                        'message' => 'El ID biométrico ya está asociado a otra cédula',
+                        'error' => 'conflict_id_biometrico'
+                    ], 422);  // 422 - Unprocessable Entity
+                }
+            }
+    
             // Crear un nuevo usuario con los datos validados
             $usuario = SistemaUsuario::create($validatedData);
-
+    
             // Respuesta exitosa con código 201
             return response()->json([
                 'message' => 'Usuario creado correctamente',
                 'data' => $usuario
             ], 201);
-
-        } catch (QueryException $e) {
-            // Error en la consulta
+    
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Error de validación
             return response()->json([
-                'message' => 'Error al crear el usuario',
+                'message' => 'Error de validación de datos',
+                'errors' => $e->errors()  // Devuelve los errores de validación detallados
+            ], 422);
+    
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Error de base de datos
+            return response()->json([
+                'message' => 'Error en la base de datos al crear el usuario',
+                'error' => $e->getMessage()
+            ], 500);  // 500 - Internal Server Error
+    
+        } catch (\Exception $e) {
+            // Cualquier otro error inesperado
+            return response()->json([
+                'message' => 'Ocurrió un error inesperado',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+    
 
     /**
      * Mostrar un usuario específico.
@@ -132,53 +161,98 @@ class SistemaUsuarioController extends Controller
     /**
      * Actualizar un usuario específico en la base de datos.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $cedula)
     {
-        // Validar los datos recibidos
-        $validatedData = $request->validate([
-            'cedula' => 'nullable|string|unique:sistema_usuarios,cedula,' . $id,
-            'usuario_RED' => 'nullable|string',
-            'id_walter_bridge' => 'nullable|string',
-            'id_biometrico' => 'nullable|string',
-            'correo_mentius' => 'nullable|string',
-            'pure_cloud' => 'nullable|string',
-            'usuario_sap' => 'nullable|string',
-            'usuario_c4c' => 'nullable|string',
-            'rtrweb' => 'nullable|string',
-            's4hanna' => 'nullable|string',
-            'usuario_crm' => 'nullable|string',
-            'codigo_vendedor' => 'nullable|string',
-            'usuario_ucontact' => 'nullable|string',
-            'agent_genesys' => 'nullable|string',
-            'usuario_confronta' => 'nullable|string',
-            'usuario_app_times' => 'nullable|string',
-        ]);
-
         try {
-            // Buscar el usuario por su id y actualizarlo
-            $usuario = SistemaUsuario::findOrFail($id);
+            // Verificar si el usuario con la cédula existe
+            $usuario = SistemaUsuario::where('cedula', $cedula)->first();
+    
+            if (!$usuario) {
+                return response()->json([
+                    'message' => 'Usuario no encontrado',
+                    'error' => 'user_not_found'
+                ], 404);  // 404 - Not Found
+            }
+    
+            // Validar los datos recibidos
+            $validatedData = $request->validate([
+                'usuario_RED' => 'nullable|string',
+                'id_walter_bridge' => 'nullable|string',
+                'id_biometrico' => 'nullable|string',
+                'correo_mentius' => 'nullable|string',
+                'pure_cloud' => 'nullable|string',
+                'usuario_sap' => 'nullable|string',
+                'usuario_c4c' => 'nullable|string',
+                'rtrweb' => 'nullable|string',
+                's4hanna' => 'nullable|string',
+                'usuario_crm' => 'nullable|string',
+                'codigo_vendedor' => 'nullable|string',
+                'usuario_ucontact' => 'nullable|string',
+                'agent_genesys' => 'nullable|string',
+                'usuario_confronta' => 'nullable|string',
+                'usuario_app_times' => 'nullable|string|unique:sistema_usuarios,usuario_app_times,' . $usuario->id, // Ignora el actual si ya está registrado
+            ]);
+    
+            // Verificar que no exista conflicto con el id_biometrico
+            if (!empty($validatedData['id_biometrico'])) {
+                $existingUserBiometrico = SistemaUsuario::where('cedula', '!=', $cedula)
+                    ->where('id_biometrico', $validatedData['id_biometrico'])
+                    ->first();
+    
+                if ($existingUserBiometrico) {
+                    return response()->json([
+                        'message' => 'El ID biométrico ya está asociado a otra cédula',
+                        'error' => 'conflict_id_biometrico'
+                    ], 422);  // 422 - Unprocessable Entity
+                }
+            }
+    
+            // Verificar que no exista conflicto con el usuario_app_times
+            if (!empty($validatedData['usuario_app_times'])) {
+                $existingUserAppTimes = SistemaUsuario::where('cedula', '!=', $cedula)
+                    ->where('usuario_app_times', $validatedData['usuario_app_times'])
+                    ->first();
+    
+                if ($existingUserAppTimes) {
+                    return response()->json([
+                        'message' => 'El usuario App Times ya está asociado a otra cédula',
+                        'error' => 'conflict_usuario_app_times'
+                    ], 422);  // 422 - Unprocessable Entity
+                }
+            }
+    
+            // Actualizar solo los datos que llegan
             $usuario->update($validatedData);
-
-            // Respuesta exitosa con código 200
+    
+            // Respuesta exitosa
             return response()->json([
                 'message' => 'Usuario actualizado correctamente',
                 'data' => $usuario
-            ], 200);
-
-        } catch (ModelNotFoundException $e) {
-            // Usuario no encontrado con código 404
+            ], 200);  // 200 - OK
+    
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Error de validación
             return response()->json([
-                'message' => 'Usuario no encontrado',
+                'message' => 'Error de validación de datos',
+                'errors' => $e->errors()
+            ], 422);
+    
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Error de base de datos
+            return response()->json([
+                'message' => 'Error en la base de datos al actualizar el usuario',
                 'error' => $e->getMessage()
-            ], 404);
-        } catch (QueryException $e) {
-            // Error en la consulta
+            ], 500);  // 500 - Internal Server Error
+    
+        } catch (\Exception $e) {
+            // Cualquier otro error inesperado
             return response()->json([
-                'message' => 'Error al actualizar el usuario',
+                'message' => 'Ocurrió un error inesperado',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+    
 
     /**
      * Eliminar un usuario específico de la base de datos.

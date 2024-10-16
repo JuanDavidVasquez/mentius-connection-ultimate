@@ -66,10 +66,17 @@ export const routesHome: Route[] = [
         name: "Biometricos",
     },
     {
+        path: "/system-users",
+        to: "/system-users",
+        Component: lazy(() => import("../sistemUsers/pages/SystemUsers")),
+        name: "System Users",
+    },
+    {
         path: "/asistencia",
         to: "/asistencia",
         Component: lazy(() => import("../asistencia/pages/Asistencia")),
         name: "Asistencia",
     },
+   
 
 ];

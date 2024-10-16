@@ -14,8 +14,7 @@ interface Biometrico {
     role_id: number;
     permiso_id: number;
 }
-
-export const Biometricos: React.FC = () => {
+export const Biometricos = () => {
   const [isVisible, setIsVisible] = useState(false); // Controla si el componente debe ser visible
   const [shouldRender, setShouldRender] = useState(false); // Controla si el componente debe renderizarse en el DOM
   const createRef = useRef<HTMLDivElement | null>(null);
